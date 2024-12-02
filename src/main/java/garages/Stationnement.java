@@ -1,72 +1,53 @@
-ackage garages;
-
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+package garages;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * Représente un stationnement d'une voiture dans un garage.
- */
-@Getter
-
-@RequiredArgsConstructor // génère un constructeur avec un paramètre pour chaque champ @NonNull ou final
 public class Stationnement {
 
+	private final Voiture myCar;
+	private final Garage myGarage;
 
-    /**
-     * La voiture qui est stationnée.
-     */
-    private final Voiture vehiculeRecu;
+	private final Date entree = new Date(); // Aujourd'hui
+	private Date fin;
 
-    /**
-     * Le garage où la voiture est stationnée.
-     */
-    private final Garage garageVisite;
+	public Stationnement(Voiture v, Garage g) {
+		myCar = v;
+		myGarage = g;
+	}
 
-    /**
-     * La date d'entrée du véhicule dans le garage.
-     */
-    private final Date entree = new Date(); // Aujourd'hui
+	public Voiture getCar() {
+		return myCar;
+	}
 
-    /**
-     * La date de sortie du véhicule du garage. Null si le véhicule est toujours
-     * dans le garage.
-     */
-    private Date fin;
+	public Garage getGarage() {
+		return myGarage;
+	}
 
-    /**
-     * Termine le stationnement en enregistrant la date de fin.
-     */
-    public void terminer() {
-       fin = new Date();
-    }
+	public Date getEntree() {
+		return entree;
+	}
 
-    /**
-     * Vérifie si le stationnement est en cours.
-     *
-     * @return true si le stationnement est en cours, false sinon
-     */
-    public boolean estEnCours() {
-       return (fin == null);
-    }
+	public Date getFin() {
+		return fin;
+	}
 
-    /**
-     * Retourne une représentation textuelle du statut du stationnement.
-     *
-     * @return Une chaîne représentant l'état du stationnement, incluant la date d'entrée
-     *         et soit "en cours" soit la date de sortie.
-     */
-    @Override
-    public String toString() {
-       SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyy");
-       return String.format("Stationnement{ entree=%s, %s }",
-             dateFormat.format(entree),
-             estEnCours() ? "en cours" : "sortie=" + dateFormat.format(fin));
-    }
+	public void terminer() {
+		// On enregistre la date de fin du stationnement
+		fin = new Date(); // Date du jour
+	}
 
+	public boolean estEnCours() {
+		return (fin == null);
+	}
 
-    public Garage getgarageVisite() { return garageVisite;
-    }
+	@Override
+	public String toString() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyy");
+		return String.format("Stationnement{ entree=%s, %s }",
+				dateFormat.format(entree),
+				estEnCours() ? "en cours" : "sortie=" + dateFormat.format(fin)
+		);
+	}
+
 }
